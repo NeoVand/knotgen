@@ -1436,21 +1436,21 @@ export function diagramToSvg(diagram: Diagram, options: SvgOptions = {}): string
   const underMaskGroup = diagram.basePaths
     .map(
       (d) =>
-        `<path d="${d}" fill="none" stroke="${backgroundColor}" stroke-width="${formatNum(haloWidth)}" stroke-linecap="butt" stroke-linejoin="round"/>`,
+        `<path d="${d}" fill="none" stroke="${backgroundColor}" stroke-width="${formatNum(haloWidth)}" stroke-linecap="round" stroke-linejoin="round"/>`,
     )
     .join('')
 
   const baseGroup = diagram.basePaths
     .map(
       (d, i) =>
-        `<path d="${d}" fill="none" stroke="${baseStroke(i)}" stroke-width="${formatNum(strokeWidth)}" stroke-linecap="square" stroke-linejoin="round"/>`,
+        `<path d="${d}" fill="none" stroke="${baseStroke(i)}" stroke-width="${formatNum(strokeWidth)}" stroke-linecap="round" stroke-linejoin="round"/>`,
     )
     .join('')
 
   const overGroup = diagram.overPaths
     .map(
       (d, i) =>
-        `<path d="${d}" fill="none" stroke="${overStroke(i)}" stroke-width="${formatNum(strokeWidth)}" stroke-linecap="square" stroke-linejoin="round"/>`,
+        `<path d="${d}" fill="none" stroke="${overStroke(i)}" stroke-width="${formatNum(strokeWidth)}" stroke-linecap="round" stroke-linejoin="round"/>`,
     )
     .join('')
 

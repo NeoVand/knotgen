@@ -284,21 +284,24 @@ svg {
   fill: none;
   stroke: var(--path-ink, var(--ink));
   stroke-width: var(--stroke-width, 2.8px);
-  stroke-linecap: square;
+  stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.under-mask path,
+.under-mask path {
+  fill: none;
+  stroke: var(--paper-color);
+  stroke-width: var(--mask-width, 4.4px);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .over-mask path {
   fill: none;
   stroke: var(--paper-color);
   stroke-width: var(--mask-width, 4.4px);
   stroke-linecap: butt;
   stroke-linejoin: round;
-}
-
-.over path {
-  filter: drop-shadow(0 0 0.65px #ffffffb3);
 }
 
 @keyframes reveal {
