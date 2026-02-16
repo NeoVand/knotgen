@@ -76,78 +76,82 @@
   })
 </script>
 
-<div class="page-shell">
-  <header class="hero">
-    <p class="kicker">knot figure generator</p>
-    <h1>Fast 2D Knot and Link Diagrams</h1>
-    <p class="subtitle">
-      Generates connected planar 4-regular shadows, then assigns random over/under crossings to produce a knot, link,
-      or unknot projection with clean vector geometry.
-    </p>
-  </header>
+<div class="app-shell">
+  <aside class="sidebar">
+    <header class="hero">
+      <p class="kicker">knot figure generator</p>
+      <h1>Fast 2D Knot and Link Diagrams</h1>
+      <p class="subtitle">
+        Generates connected planar 4-regular shadows, then assigns random over/under crossings to produce a knot, link,
+        or unknot projection with clean vector geometry.
+      </p>
+    </header>
 
-  <section class="panel controls">
-    <label>
-      Crossings
-      <input type="number" bind:value={crossingTarget} min="3" max="6000" step="1" />
-    </label>
+    <div class="sidebar-panels">
+      <section class="panel controls">
+        <label>
+          Crossings
+          <input type="number" bind:value={crossingTarget} min="3" max="6000" step="1" />
+        </label>
 
-    <label>
-      Seed
-      <input type="text" bind:value={seedText} spellcheck="false" />
-    </label>
+        <label>
+          Seed
+          <input type="text" bind:value={seedText} spellcheck="false" />
+        </label>
 
-    <label>
-      Stroke
-      <input type="range" bind:value={strokeWidth} min="1.2" max="20" step="0.1" oninput={regenerate} />
-      <span>{strokeWidth.toFixed(1)} px</span>
-    </label>
+        <label>
+          Stroke
+          <input type="range" bind:value={strokeWidth} min="1.2" max="20" step="0.1" oninput={regenerate} />
+          <span>{strokeWidth.toFixed(1)} px</span>
+        </label>
 
-    <label>
-      Corner Inset
-      <input type="range" bind:value={cornerInset} min="0.06" max="0.9" step="0.01" oninput={regenerate} />
-      <span>{cornerInset.toFixed(2)}</span>
-    </label>
+        <label>
+          Corner Inset
+          <input type="range" bind:value={cornerInset} min="0.06" max="0.9" step="0.01" oninput={regenerate} />
+          <span>{cornerInset.toFixed(2)}</span>
+        </label>
 
-    <label>
-      Crossing Gap
-      <input type="range" bind:value={crossingGapScale} min="0.6" max="3.4" step="0.05" oninput={regenerate} />
-      <span>{crossingGapScale.toFixed(2)}x</span>
-    </label>
+        <label>
+          Crossing Gap
+          <input type="range" bind:value={crossingGapScale} min="0.6" max="3.4" step="0.05" oninput={regenerate} />
+          <span>{crossingGapScale.toFixed(2)}x</span>
+        </label>
 
-    <label class="toggle">
-      <input type="checkbox" bind:checked={useArcGuideLayout} onchange={regenerate} />
-      <span>Use Arc Guide Nodes</span>
-    </label>
+        <label class="toggle">
+          <input type="checkbox" bind:checked={useArcGuideLayout} onchange={regenerate} />
+          <span>Use Arc Guide Nodes</span>
+        </label>
 
-    <label class="toggle">
-      <input type="checkbox" bind:checked={colorByComponent} />
-      <span>Color Link Components</span>
-    </label>
+        <label class="toggle">
+          <input type="checkbox" bind:checked={colorByComponent} />
+          <span>Color Link Components</span>
+        </label>
 
-    <div class="buttons">
-      <button type="button" onclick={regenerate}>Generate</button>
-      <button type="button" class="ghost" onclick={reseed}>New Seed</button>
-      <button type="button" class="ghost" onclick={downloadSvg} disabled={!diagram}>Download SVG</button>
+        <div class="buttons">
+          <button type="button" onclick={regenerate}>Generate</button>
+          <button type="button" class="ghost" onclick={reseed}>New Seed</button>
+          <button type="button" class="ghost" onclick={downloadSvg} disabled={!diagram}>Download SVG</button>
+        </div>
+      </section>
+
+      <section class="panel metrics" aria-live="polite">
+        {#if diagram}
+          <p><strong>{diagram.crossings}</strong> crossings ({diagram.requestedCrossings} requested)</p>
+          <p><strong>{diagram.components}</strong> link component{diagram.components === 1 ? '' : 's'}</p>
+          <p><strong>{diagram.primalVertices}</strong> primal vertices / <strong>{diagram.hullVertices}</strong> hull vertices</p>
+          <p>crossing radius <strong>{diagram.crossingRadius.toFixed(2)}</strong> / attempts <strong>{diagram.attempts}</strong></p>
+          <p>min crossing angle <strong>{diagram.minCrossingAngleDeg.toFixed(1)}°</strong> / quality <strong>{diagram.qualityScore.toFixed(3)}</strong></p>
+          <p>generated in <strong>{runtimeMs.toFixed(1)} ms</strong></p>
+        {:else}
+          <p>No diagram generated yet.</p>
+        {/if}
+
+        {#if statusMessage}
+          <p class="status">{statusMessage}</p>
+        {/if}
+      </section>
     </div>
-  </section>
-
-  <section class="panel metrics" aria-live="polite">
-    {#if diagram}
-      <p><strong>{diagram.crossings}</strong> crossings ({diagram.requestedCrossings} requested)</p>
-      <p><strong>{diagram.components}</strong> link component{diagram.components === 1 ? '' : 's'}</p>
-      <p><strong>{diagram.primalVertices}</strong> primal vertices / <strong>{diagram.hullVertices}</strong> hull vertices</p>
-      <p>crossing radius <strong>{diagram.crossingRadius.toFixed(2)}</strong> / attempts <strong>{diagram.attempts}</strong></p>
-      <p>min crossing angle <strong>{diagram.minCrossingAngleDeg.toFixed(1)}°</strong> / quality <strong>{diagram.qualityScore.toFixed(3)}</strong></p>
-      <p>generated in <strong>{runtimeMs.toFixed(1)} ms</strong></p>
-    {:else}
-      <p>No diagram generated yet.</p>
-    {/if}
-
-    {#if statusMessage}
-      <p class="status">{statusMessage}</p>
-    {/if}
-  </section>
+  </aside>
 
   <section class="panel canvas-panel">
     {#if diagram}
