@@ -1,3 +1,5 @@
+![Knotgen UI screenshot](assets/readme-screenshot.png)
+
 # Knotgen
 
 A fast Svelte web app for generating large 2D knot/link/unknot diagrams as clean SVG.
